@@ -3,11 +3,11 @@ const path = require('path');
 const { clog } = require('./middleware/clog');
 const api = require('./routes/index.js');
 
-const PORT = 3001;
+const PORT = process.env.port || 3001;
 
 const app = express();
 
-// Import custom middleware, "cLog"
+// Import custom middlAeware, "cLog"
 app.use(clog);
 
 // Middleware for parsing JSON and urlencoded form data
@@ -27,6 +27,10 @@ app.get('/feedback', (req, res) =>
   res.sendFile(path.join(__dirname, '/public/pages/feedback.html'))
 );
 
+app.get ('*',(req,res)=>{
+  res.status(404).sendFile(path.join(__dirname, '/public/404.html'));
+}
+)
 app.listen(PORT, () =>
   console.log(`App listening at http://localhost:${PORT}`)
 );
